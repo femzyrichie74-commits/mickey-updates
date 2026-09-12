@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MICKEY UPDATES</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --paper: #E9E6DC;
+    --paper-dim: #DFDBCE;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4844;
+    --rule: #1A1A1A;
+    --red: #C41E2F;
+    --white: #FAF9F5;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ -webkit-text-size-adjust: 100%; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+  }
+
+  h1,h2,h3,.serif{ font-family:'Source Serif 4', serif; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:1040px; margin:0 auto; padding:0 20px; }
+
+  /* ===== Masthead ===== */
+  .masthead{ padding:28px 20px 16px; text-align:center; border-bottom:4px solid var(--rule); }
+  .masthead .dateline{
+    font-size:11px; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:10px;
+    display:flex; justify-content:space-between; max-width:1040px; margin-left:auto; margin-right:auto;
+  }
+  .nameplate{
+    font-family:'Source Serif 4', serif; font-weight:900; font-size:clamp(40px, 9vw, 76px);
+    letter-spacing:-0.01em; line-height:0.95; margin:6px 0 4px;
+  }
+  .nameplate .mic{ color:var(--red); }
+  .tagline{ font-size:13px; font-style:italic; color:var(--ink-soft); font-family:'Source Serif 4', serif; }
+
+  /* ===== Ticker ===== */
+  .ticker-bar{ background:var(--ink); color:var(--white); display:flex; align-items:center; overflow:hidden; white-space:nowrap; }
+  .ticker-label{ background:var(--red); color:var(--white); font-size:11px; font-weight:700; letter-spacing:0.06em; padding:8px 14px; flex-shrink:0; }
+  .ticker-track{ display:flex; overflow:hidden; position:relative; flex:1; }
+  .ticker-content{ display:inline-flex; white-space:nowrap; padding-left:100%; animation: ticker-scroll 32s linear infinite; font-size:13px; padding-top:8px; padding-bottom:8px; }
+  .ticker-content span{ margin-right:48px; }
+  @keyframes ticker-scroll{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-100%); } }
+  @media (prefers-reduced-motion: reduce){ .ticker-content{ animation:none; padding-left:14px; } }
+
+  /* ===== Category filter ===== */
+  .filters{ display:flex; gap:6px; flex-wrap:wrap; padding:16px 20px 10px; border-bottom:1px solid var(--ink-soft); }
+  .filter-btn{
+    font-size:12px; font-weight:600; letter-spacing:0.04em; padding:6px 12px; background:transparent;
+    border:1px solid var(--ink); border-radius:2px; cursor:pointer; color:var(--ink); font-family:'Inter',sans-serif;
+  }
+  .filter-btn.active{ background:var(--ink); color:var(--white); }
+
+  main{ padding:24px 20px 60px; }
+  .empty-state{ text-align:center; padding:80px 20px; color:var(--ink-soft); }
+  .empty-state .serif{ font-size:22px; margin-bottom:8px; display:block; }
+
+  /* Hero */
+  .hero{ display:grid; grid-template-columns: 1.6fr 1fr; gap:28px; padding-bottom:28px; border-bottom:2px solid var(--rule); margin-bottom:28px; }
+  @media (max-width: 720px){ .hero{ grid-template-columns:1fr; } }
+  .hero-main .tag{ display:inline-block; font-size:11px; font-weight:700; letter-spacing:0.06em; color:var(--red); margin-bottom:8px; }
+  .hero-main .breaking{ background:var(--red); color:var(--white); padding:2px 8px; margin-right:8px; border-radius:2px; }
+  .hero-main h2{ font-size:clamp(28px,4vw,42px); line-height:1.05; margin:0 0 10px; font-weight:700; }
+  .hero-main .deck{ font-size:17px; color:var(--ink-soft); margin-bottom:10px; font-family:'Source Serif 4', serif; }
+  .byline{ font-size:12px; color:var(--ink-soft); margin-bottom:14px; }
+  .hero-main .body-text p{ margin:0 0 12px; font-size:15px; }
+
+  /* Exhibits (images) */
+  .exhibit{ margin:16px 0; }
+  .exhibit img{ width:100%; display:block; border:1px solid var(--ink); }
+  .exhibit-caption{ font-size:11px; color:var(--ink-soft); font-style:italic; margin-top:6px; }
+  .exhibit-label{ font-size:10px; font-weight:700; letter-spacing:0.05em; color:var(--ink-soft); margin-bottom:4px; text-transform:uppercase; }
+
+  /* Stats block */
+  .stats-block{ margin:18px 0; border:1px solid var(--ink); background:var(--white); }
+  .stats-block-title{
+    font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    background:var(--ink); color:var(--white); padding:6px 12px;
+  }
+  .stats-row{ display:flex; justify-content:space-between; padding:9px 12px; border-bottom:1px solid var(--paper-dim); font-size:13px; }
+  .stats-row:last-child{ border-bottom:none; }
+  .stats-row .stat-label{ color:var(--ink-soft); }
+  .stats-row .stat-value{ font-weight:700; font-family:'Source Serif 4', serif; }
+
+  .side-list{ display:flex; flex-direction:column; gap:18px; }
+  .side-item{ padding-bottom:16px; border-bottom:1px solid var(--paper-dim); }
+  .side-item:last-child{ border-bottom:none; }
+  .side-item .tag{ font-size:10px; font-weight:700; letter-spacing:0.05em; color:var(--red); display:block; margin-bottom:4px; }
+  .side-item h3{ font-size:17px; margin:0 0 4px; line-height:1.2; font-weight:600; cursor:pointer; }
+  .side-item .deck-small{ font-size:13px; color:var(--ink-soft); }
+
+  .section-label{
+    font-family:'Source Serif 4', serif; font-size:13px; font-weight:700; letter-spacing:0.04em;
+    border-bottom:2px solid var(--rule); padding-bottom:6px; margin-bottom:16px;
+  }
+  .archive-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:22px; margin-bottom:20px; }
+  .archive-item{ border-bottom:1px solid var(--paper-dim); padding-bottom:16px; cursor:pointer; }
+  .archive-item .tag{ font-size:10px; font-weight:700; letter-spacing:0.05em; color:var(--red); display:block; margin-bottom:5px; }
+  .archive-item h3{ font-size:16px; margin:0 0 5px; line-height:1.25; font-weight:600; }
+  .archive-item .deck-small{ font-size:13px; color:var(--ink-soft); margin-bottom:6px; }
+  .archive-item .meta{ font-size:11px; color:var(--ink-soft); }
+
+  /* Article modal */
+  .modal-overlay{ display:none; position:fixed; inset:0; background:rgba(26,26,26,0.55); z-index:200; padding:30px 16px; overflow-y:auto; }
+  .modal-overlay.open{ display:block; }
+  .modal-box{ background:var(--white); max-width:680px; margin:0 auto; padding:30px 26px 34px; border:1px solid var(--ink); position:relative; }
+  .modal-close{ position:absolute; top:14px; right:16px; background:none; border:none; font-size:22px; cursor:pointer; color:var(--ink); }
+  .modal-box .tag{ font-size:11px; font-weight:700; letter-spacing:0.06em; color:var(--red); }
+  .modal-box h2{ font-size:26px; margin:8px 0 6px; line-height:1.1; }
+  .modal-box .deck{ font-size:15px; color:var(--ink-soft); font-family:'Source Serif 4',serif; margin-bottom:8px; }
+  .modal-box .body-text p{ font-size:15px; margin:0 0 12px; }
+
+  footer{ text-align:center; padding:24px 20px 40px; font-size:11px; color:var(--ink-soft); border-top:2px solid var(--rule); }
+
+  .storage-warning{ display:none; background:#FFF3CD; border-bottom:1px solid #E0C068; color:#6b5314; font-size:12px; text-align:center; padding:8px 16px; }
+  .storage-warning.show{ display:block; }
+
+  /* ===== Admin ===== */
+  .admin-dot{
+    display:inline-block;
+    margin-top:10px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    color:var(--ink-soft);
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    letter-spacing:0.04em;
+    text-decoration:underline;
+    padding:6px 10px;
+  }
+  .admin-dot:hover, .admin-dot:active{ color:var(--ink); }
+
+  .admin-overlay{ display:none; position:fixed; inset:0; background:rgba(26,26,26,0.6); z-index:300; align-items:center; justify-content:center; padding:20px; }
+  .admin-overlay.open{ display:flex; }
+  .admin-box{ background:var(--white); max-width:420px; width:100%; padding:26px; border:1px solid var(--ink); }
+  .admin-box h3{ margin:0 0 14px; font-size:18px; }
+  .admin-box input{ width:100%; font-family:'Inter',sans-serif; font-size:14px; padding:9px 10px; border:1px solid var(--ink-soft); margin-bottom:12px; background:var(--white); color:var(--ink); }
+  .admin-error{ color:var(--red); font-size:12px; margin-bottom:10px; display:none; }
+  .admin-error.show{ display:block; }
+  .admin-btn-row{ display:flex; gap:10px; margin-top:6px; }
+  .btn{ font-family:'Inter',sans-serif; font-size:13px; font-weight:600; padding:10px 16px; border:1px solid var(--ink); background:var(--ink); color:var(--white); cursor:pointer; flex:1; }
+  .btn.secondary{ background:transparent; color:var(--ink); }
+  .btn.small{ flex:none; padding:7px 12px; font-size:12px; }
+  .btn:disabled{ opacity:0.5; cursor:not-allowed; }
+
+  /* Composer */
+  .composer-panel{ background:var(--white); max-width:600px; width:100%; padding:26px; border:1px solid var(--ink); max-height:90vh; overflow-y:auto; }
+  .composer-panel h3{ margin:0 0 4px; font-size:18px; }
+  .composer-panel .sub{ font-size:12px; color:var(--ink-soft); margin-bottom:16px; }
+  .composer-panel input, .composer-panel select, .composer-panel textarea{
+    width:100%; font-family:'Inter',sans-serif; font-size:14px; padding:9px 10px;
+    border:1px solid var(--ink-soft); margin-bottom:12px; background:var(--white); color:var(--ink);
+  }
+  .composer-panel textarea{ min-height:110px; resize:vertical; }
+  .composer-panel label{ font-size:11px; font-weight:600; letter-spacing:0.03em; color:var(--ink-soft); display:block; margin-bottom:4px; }
+  .field-row{ display:flex; gap:10px; }
+  .field-row > div{ flex:1; }
+
+  .block-section{ border-top:1px solid var(--paper-dim); margin-top:16px; padding-top:14px; }
+  .block-section-title{ font-size:12px; font-weight:700; letter-spacing:0.03em; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+  .dyn-row{ display:flex; gap:8px; margin-bottom:10px; align-items:flex-start; position:relative; }
+  .dyn-row > div{ flex:1; }
+  .dyn-row input{ margin-bottom:6px; }
+  .remove-row-btn{
+    background:none; border:none; color:var(--red); font-size:16px; cursor:pointer; padding:8px 2px; line-height:1;
+  }
+  .add-row-btn{
+    font-size:12px; font-weight:600; background:none; border:1px dashed var(--ink-soft); color:var(--ink-soft);
+    padding:7px 10px; cursor:pointer; width:100%; margin-bottom:4px;
+  }
+  .add-row-btn:hover{ border-color:var(--ink); color:var(--ink); }
+
+  .article-list-admin{ margin-top:18px; border-top:1px solid var(--paper-dim); padding-top:14px; max-height:200px; overflow-y:auto; }
+  .admin-list-item{ display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:6px 0; border-bottom:1px solid var(--paper-dim); gap:8px; }
+  .admin-list-item span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+  .admin-list-actions{ display:flex; gap:10px; flex-shrink:0; }
+  .edit-btn{ background:none; border:none; color:var(--ink); cursor:pointer; font-size:12px; font-weight:600; }
+  .del-btn{ background:none; border:none; color:var(--red); cursor:pointer; font-size:12px; font-weight:600; }
+  .editing-banner{ background:var(--paper); border:1px solid var(--ink); padding:8px 10px; font-size:12px; margin-bottom:14px; display:none; justify-content:space-between; align-items:center; }
+  .editing-banner.show{ display:flex; }
+  .editing-banner button{ background:none; border:none; color:var(--red); font-size:12px; font-weight:600; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<div class="storage-warning" id="storageWarning">
+  Connecting to storage — entries may not appear for other readers until this is published.
+</div>
+
+<header class="masthead">
+  <div class="dateline">
+    <span id="datelineDate">—</span>
+    <span>ADMIN-VERIFIED WIRE · READ ONLY</span>
+  </div>
+  <h1 class="nameplate"><span class="mic">MICKEY</span> UPDATES</h1>
+  <div class="tagline">Straight reporting, one story at a time.</div>
+</header>
+
+<div class="ticker-bar">
+  <div class="ticker-label">LATEST</div>
+  <div class="ticker-track">
+    <div class="ticker-content" id="tickerContent"><span>No stories filed yet.</span></div>
+  </div>
+</div>
+
+<div class="filters" id="filterBar">
+  <button class="filter-btn active" data-cat="All">All</button>
+  <button class="filter-btn" data-cat="World">World</button>
+  <button class="filter-btn" data-cat="Business">Business</button>
+  <button class="filter-btn" data-cat="Sports">Sports</button>
+  <button class="filter-btn" data-cat="Tech">Tech</button>
+  <button class="filter-btn" data-cat="Opinion">Opinion</button>
+</div>
+
+<main class="wrap" id="mainContent">
+  <div class="empty-state" id="emptyState">
+    <span class="serif">No stories filed yet</span>
+    Check back soon.
+  </div>
+  <div id="heroSection" style="display:none;"></div>
+  <div id="archiveSection" style="display:none;">
+    <div class="section-label">MORE STORIES</div>
+    <div class="archive-grid" id="archiveGrid"></div>
+  </div>
+</main>
+
+<footer>
+  © <span id="yearNow"></span> MICKEY UPDATES. All entries verified by the editor before publication.
+  <br>
+  <button class="admin-dot" id="adminDot">+ Post an update</button>
+</footer>
+
+<div class="modal-overlay" id="articleModal">
+  <div class="modal-box" id="articleModalBox"></div>
+</div>
+
+<div class="admin-overlay" id="passcodeOverlay">
+  <div class="admin-box">
+    <h3>Editor access</h3>
+    <div class="admin-error" id="passcodeError">Incorrect passcode.</div>
+    <label style="font-size:11px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:4px;">Passcode</label>
+    <input type="password" id="passcodeInput" autocomplete="off">
+    <div class="admin-btn-row">
+      <button class="btn secondary" id="passcodeCancel">Cancel</button>
+      <button class="btn" id="passcodeSubmit">Enter</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-overlay" id="composerOverlay">
+  <div class="composer-panel">
+    <h3 id="composerTitle">File a story</h3>
+    <div class="sub">Published instantly to all readers.</div>
+
+    <div class="editing-banner" id="editingBanner">
+      <span>Editing an existing story</span>
+      <button id="cancelEditBtn">Cancel edit / new story</button>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label>Category</label>
+        <select id="fieldCategory">
+          <option>World</option><option>Business</option><option>Sports</option><option>Tech</option><option>Opinion</option>
+        </select>
+      </div>
+      <div>
+        <label>Byline</label>
+        <input type="text" id="fieldByline" placeholder="Staff Reporter">
+      </div>
+    </div>
+
+    <label>Breaking?</label>
+    <select id="fieldBreaking" style="margin-bottom:12px;">
+      <option value="no">No</option>
+      <option value="yes">Yes — mark as BREAKING</option>
+    </select>
+
+    <label>Headline</label>
+    <input type="text" id="fieldHeadline" placeholder="Headline">
+
+    <label>Deck (subheadline)</label>
+    <input type="text" id="fieldDeck" placeholder="One-line summary">
+
+    <label>Update / story text</label>
+    <textarea id="fieldBody" placeholder="Story text. Separate paragraphs with a blank line."></textarea>
+
+    <!-- Images -->
+    <div class="block-section">
+      <div class="block-section-title">Pictures (Exhibits)</div>
+      <div id="imagesContainer"></div>
+      <button type="button" class="add-row-btn" id="addImageBtn">+ Add a picture</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="block-section">
+      <div class="block-section-title">Statistics</div>
+      <div id="statsContainer"></div>
+      <button type="button" class="add-row-btn" id="addStatBtn">+ Add a statistic</button>
+    </div>
+
+    <div class="admin-error" id="composerError" style="margin-top:14px;">Please fill in headline and update text.</div>
+
+    <div class="admin-btn-row" style="margin-top:14px;">
+      <button class="btn secondary" id="composerCancel">Close</button>
+      <button class="btn" id="composerSubmit">Publish</button>
+    </div>
+
+    <div class="article-list-admin" id="adminArticleList"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  let articles = [];
+  let currentFilter = "All";
+  let isAdmin = false;
+  let adminPasscode = "";
+  let editingId = null;
+  let imageRowCount = 0;
+  let statRowCount = 0;
+
+  document.getElementById('yearNow').textContent = new Date().getFullYear();
+  document.getElementById('datelineDate').textContent = new Date().toLocaleDateString('en-US',{weekday:'long', year:'numeric', month:'long', day:'numeric'});
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str || "";
+    return d.innerHTML;
+  }
+  function paragraphize(body){
+    return (body || "").split(/\n\s*\n/).map(p => `<p>${escapeHtml(p).replace(/\n/g,'<br>')}</p>`).join('');
+  }
+  function timeAgo(ts){
+    const diff = Date.now() - ts;
+    const mins = Math.floor(diff/60000);
+    if(mins < 1) return "just now";
+    if(mins < 60) return mins + "m ago";
+    const hrs = Math.floor(mins/60);
+    if(hrs < 24) return hrs + "h ago";
+    const days = Math.floor(hrs/24);
+    return days + "d ago";
+  }
+  function exhibitLetter(i){
+    return String.fromCharCode(65 + i); // A, B, C...
+  }
+
+  async function loadArticles(){
+    try{
+      const res = await fetch('/api/articles');
+      const data = await res.json();
+      articles = (data && data.articles) ? data.articles : [];
+    }catch(e){
+      articles = [];
+    }
+    render();
+  }
+  async function saveArticles(){
+    try{
+      const res = await fetch('/api/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode: adminPasscode, articles })
+      });
+      const data = await res.json().catch(() => ({}));
+      if(!res.ok || !data.ok){
+        showStorageWarning();
+        return false;
+      }
+      return true;
+    }catch(e){
+      showStorageWarning();
+      return false;
+    }
+  }
+  function showStorageWarning(){
+    document.getElementById('storageWarning').classList.add('show');
+  }
+
+  function renderExhibits(images){
+    if(!images || !images.length) return '';
+    return images.map((img, i) => `
+      <div class="exhibit">
+        <div class="exhibit-label">Exhibit ${exhibitLetter(i)}</div>
+        <img src="${escapeHtml(img.url)}" alt="">
+        ${img.caption ? `<div class="exhibit-caption">${escapeHtml(img.caption)}</div>` : ''}
+      </div>
+    `).join('');
+  }
+  function renderStats(stats){
+    if(!stats || !stats.length) return '';
+    return `
+      <div class="stats-block">
+        <div class="stats-block-title">By the numbers</div>
+        ${stats.map(s => `
+          <div class="stats-row">
+            <span class="stat-label">${escapeHtml(s.label)}</span>
+            <span class="stat-value">${escapeHtml(s.value)}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function render(){
+    const sorted = [...articles].sort((a,b) => b.timestamp - a.timestamp);
+    const filtered = currentFilter === "All" ? sorted : sorted.filter(a => a.category === currentFilter);
+
+    document.getElementById('emptyState').style.display = filtered.length ? 'none' : 'block';
+    document.getElementById('heroSection').style.display = filtered.length ? 'grid' : 'none';
+    document.getElementById('archiveSection').style.display = filtered.length > 1 ? 'block' : 'none';
+
+    const tickerEl = document.getElementById('tickerContent');
+    tickerEl.innerHTML = sorted.length
+      ? sorted.slice(0,8).map(a => `<span>${a.breaking ? 'BREAKING: ' : ''}${escapeHtml(a.headline)}</span>`).join('')
+      : '<span>No stories filed yet.</span>';
+
+    if(!filtered.length) return;
+
+    const hero = filtered[0];
+    const rest = filtered.slice(1);
+    const sideItems = rest.slice(0,3);
+    const archiveItems = rest.slice(3);
+
+    document.getElementById('heroSection').innerHTML = `
+      <div class="hero">
+        <div class="hero-main">
+          <div class="tag">${hero.breaking ? '<span class="breaking">BREAKING</span>' : ''}${escapeHtml(hero.category)}</div>
+          <h2>${escapeHtml(hero.headline)}</h2>
+          <div class="deck">${escapeHtml(hero.deck || "")}</div>
+          <div class="byline">By ${escapeHtml(hero.byline || "Staff Reporter")} · ${timeAgo(hero.timestamp)}</div>
+          <div class="body-text">${paragraphize(hero.body)}</div>
+          ${renderExhibits(hero.images)}
+          ${renderStats(hero.stats)}
+        </div>
+        <div class="side-list">
+          ${sideItems.map(a => `
+            <div class="side-item" data-id="${a.id}">
+              <span class="tag">${a.breaking ? 'BREAKING · ' : ''}${escapeHtml(a.category)}</span>
+              <h3>${escapeHtml(a.headline)}</h3>
+              <div class="deck-small">${escapeHtml(a.deck || "")}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    document.getElementById('archiveGrid').innerHTML = archiveItems.map(a => `
+      <div class="archive-item" data-id="${a.id}">
+        <span class="tag">${a.breaking ? 'BREAKING · ' : ''}${escapeHtml(a.category)}</span>
+        <h3>${escapeHtml(a.headline)}</h3>
+        <div class="deck-small">${escapeHtml(a.deck || "")}</div>
+        <div class="meta">${escapeHtml(a.byline || "Staff Reporter")} · ${timeAgo(a.timestamp)}</div>
+      </div>
+    `).join('');
+
+    document.querySelectorAll('.side-item, .archive-item').forEach(el => {
+      el.addEventListener('click', () => openArticle(el.dataset.id));
+    });
+
+    if(isAdmin) renderAdminList();
+  }
+
+  function openArticle(id){
+    const a = articles.find(x => x.id === id);
+    if(!a) return;
+    document.getElementById('articleModalBox').innerHTML = `
+      <button class="modal-close" id="modalCloseBtn">&times;</button>
+      <div class="tag">${a.breaking ? '<span class="breaking" style="background:var(--red);color:var(--white);padding:2px 8px;border-radius:2px;margin-right:6px;">BREAKING</span>' : ''}${escapeHtml(a.category)}</div>
+      <h2>${escapeHtml(a.headline)}</h2>
+      <div class="deck">${escapeHtml(a.deck || "")}</div>
+      <div class="byline">By ${escapeHtml(a.byline || "Staff Reporter")} · ${timeAgo(a.timestamp)}</div>
+      <div class="body-text">${paragraphize(a.body)}</div>
+      ${renderExhibits(a.images)}
+      ${renderStats(a.stats)}
+    `;
+    document.getElementById('articleModal').classList.add('open');
+    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+  }
+  function closeModal(){ document.getElementById('articleModal').classList.remove('open'); }
+  document.getElementById('articleModal').addEventListener('click', (e) => {
+    if(e.target.id === 'articleModal') closeModal();
+  });
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.cat;
+      render();
+    });
+  });
+
+  // ===== Dynamic image rows =====
+  function addImageRow(url, caption){
+    imageRowCount++;
+    const id = 'img' + imageRowCount;
+    const wrap = document.createElement('div');
+    wrap.className = 'dyn-row';
+    wrap.dataset.rowId = id;
+    wrap.innerHTML = `
+      <div>
+        <input type="text" placeholder="Image URL" class="img-url" value="${escapeHtml(url||'')}">
+        <input type="text" placeholder="Caption (optional)" class="img-caption" value="${escapeHtml(caption||'')}">
+      </div>
+      <button type="button" class="remove-row-btn" aria-label="Remove">&times;</button>
+    `;
+    wrap.querySelector('.remove-row-btn').addEventListener('click', () => wrap.remove());
+    document.getElementById('imagesContainer').appendChild(wrap);
+  }
+  function addStatRow(label, value){
+    statRowCount++;
+    const id = 'stat' + statRowCount;
+    const wrap = document.createElement('div');
+    wrap.className = 'dyn-row';
+    wrap.dataset.rowId = id;
+    wrap.innerHTML = `
+      <div style="display:flex;gap:8px;">
+        <input type="text" placeholder="Label (e.g. Attendance)" class="stat-label-input" value="${escapeHtml(label||'')}" style="flex:1;">
+        <input type="text" placeholder="Value (e.g. 12,400)" class="stat-value-input" value="${escapeHtml(value||'')}" style="flex:1;">
+      </div>
+      <button type="button" class="remove-row-btn" aria-label="Remove">&times;</button>
+    `;
+    wrap.querySelector('.remove-row-btn').addEventListener('click', () => wrap.remove());
+    document.getElementById('statsContainer').appendChild(wrap);
+  }
+  document.getElementById('addImageBtn').addEventListener('click', () => addImageRow());
+  document.getElementById('addStatBtn').addEventListener('click', () => addStatRow());
+
+  function collectImages(){
+    return [...document.querySelectorAll('#imagesContainer .dyn-row')].map(row => ({
+      url: row.querySelector('.img-url').value.trim(),
+      caption: row.querySelector('.img-caption').value.trim()
+    })).filter(img => img.url);
+  }
+  function collectStats(){
+    return [...document.querySelectorAll('#statsContainer .dyn-row')].map(row => ({
+      label: row.querySelector('.stat-label-input').value.trim(),
+      value: row.querySelector('.stat-value-input').value.trim()
+    })).filter(s => s.label && s.value);
+  }
+
+  function resetComposerFields(){
+    ['fieldByline','fieldHeadline','fieldDeck','fieldBody'].forEach(id => document.getElementById(id).value = "");
+    document.getElementById('fieldBreaking').value = "no";
+    document.getElementById('fieldCategory').value = "World";
+    document.getElementById('imagesContainer').innerHTML = "";
+    document.getElementById('statsContainer').innerHTML = "";
+    editingId = null;
+    document.getElementById('editingBanner').classList.remove('show');
+    document.getElementById('composerTitle').textContent = "File a story";
+    document.getElementById('composerSubmit').textContent = "Publish";
+  }
+
+  function loadArticleIntoComposer(a){
+    editingId = a.id;
+    document.getElementById('fieldCategory').value = a.category;
+    document.getElementById('fieldByline').value = a.byline || "";
+    document.getElementById('fieldBreaking').value = a.breaking ? "yes" : "no";
+    document.getElementById('fieldHeadline').value = a.headline;
+    document.getElementById('fieldDeck').value = a.deck || "";
+    document.getElementById('fieldBody').value = a.body;
+    document.getElementById('imagesContainer').innerHTML = "";
+    document.getElementById('statsContainer').innerHTML = "";
+    (a.images || []).forEach(img => addImageRow(img.url, img.caption));
+    (a.stats || []).forEach(s => addStatRow(s.label, s.value));
+    document.getElementById('editingBanner').classList.add('show');
+    document.getElementById('composerTitle').textContent = "Edit story";
+    document.getElementById('composerSubmit').textContent = "Save changes";
+  }
+
+  document.getElementById('cancelEditBtn').addEventListener('click', resetComposerFields);
+
+  // Admin flow
+  document.getElementById('adminDot').addEventListener('click', () => {
+    document.getElementById('passcodeInput').value = "";
+    document.getElementById('passcodeError').classList.remove('show');
+    document.getElementById('passcodeOverlay').classList.add('open');
+    document.getElementById('passcodeInput').focus();
+  });
+  document.getElementById('passcodeCancel').addEventListener('click', () => {
+    document.getElementById('passcodeOverlay').classList.remove('open');
+  });
+  document.getElementById('passcodeSubmit').addEventListener('click', submitPasscode);
+  document.getElementById('passcodeInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') submitPasscode(); });
+  async function submitPasscode(){
+    const val = document.getElementById('passcodeInput').value;
+    const submitBtn = document.getElementById('passcodeSubmit');
+    submitBtn.disabled = true;
+    try{
+      const res = await fetch('/api/verify-passcode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode: val })
+      });
+      const data = await res.json().catch(() => ({}));
+      if(data.ok){
+        isAdmin = true;
+        adminPasscode = val;
+        document.getElementById('passcodeOverlay').classList.remove('open');
+        document.getElementById('composerOverlay').classList.add('open');
+        renderAdminList();
+      } else {
+        document.getElementById('passcodeError').classList.add('show');
+      }
+    }catch(e){
+      document.getElementById('passcodeError').classList.add('show');
+    }finally{
+      submitBtn.disabled = false;
+    }
+  }
+  document.getElementById('composerCancel').addEventListener('click', () => {
+    document.getElementById('composerOverlay').classList.remove('open');
+  });
+
+  document.getElementById('composerSubmit').addEventListener('click', async () => {
+    const headline = document.getElementById('fieldHeadline').value.trim();
+    const body = document.getElementById('fieldBody').value.trim();
+    const errEl = document.getElementById('composerError');
+    if(!headline || !body){
+      errEl.classList.add('show');
+      return;
+    }
+    errEl.classList.remove('show');
+
+    const fields = {
+      category: document.getElementById('fieldCategory').value,
+      byline: document.getElementById('fieldByline').value.trim(),
+      breaking: document.getElementById('fieldBreaking').value === 'yes',
+      headline: headline,
+      deck: document.getElementById('fieldDeck').value.trim(),
+      body: body,
+      images: collectImages(),
+      stats: collectStats()
+    };
+
+    if(editingId){
+      const idx = articles.findIndex(a => a.id === editingId);
+      if(idx !== -1){
+        articles[idx] = { ...articles[idx], ...fields };
+      }
+    } else {
+      articles.push({
+        id: 'a' + Date.now() + Math.random().toString(36).slice(2,7),
+        timestamp: Date.now(),
+        ...fields
+      });
+    }
+
+    const saved = await saveArticles();
+    if(saved){
+      render();
+      resetComposerFields();
+    }
+  });
+
+  function renderAdminList(){
+    const listEl = document.getElementById('adminArticleList');
+    const sorted = [...articles].sort((a,b) => b.timestamp - a.timestamp);
+    if(!sorted.length){
+      listEl.innerHTML = '<div style="font-size:12px;color:var(--ink-soft);">No stories filed yet.</div>';
+      return;
+    }
+    listEl.innerHTML = sorted.map(a => `
+      <div class="admin-list-item">
+        <span>${escapeHtml(a.headline)}</span>
+        <div class="admin-list-actions">
+          <button class="edit-btn" data-id="${a.id}">Edit</button>
+          <button class="del-btn" data-id="${a.id}">Delete</button>
+        </div>
+      </div>
+    `).join('');
+    listEl.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const a = articles.find(x => x.id === btn.dataset.id);
+        if(a) loadArticleIntoComposer(a);
+      });
+    });
+    listEl.querySelectorAll('.del-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const previous = articles;
+        articles = articles.filter(a => a.id !== btn.dataset.id);
+        const saved = await saveArticles();
+        if(!saved) articles = previous;
+        render();
+        renderAdminList();
+      });
+    });
+  }
+
+  loadArticles();
+  setInterval(loadArticles, 15000);
+})();
+</script>
+
+</body>
+</html>
