@@ -28,13 +28,40 @@ export default async function handler(req, res) {
       const articles = (await redis.get(STORAGE_KEY)) || [];
       res.status(200).json({ articles });
     } catch (err) {
-      res.status(500).json({ error: 'Failed to load articles' });
+      res.status(500).json({ error: 'Failed to load articles', debug: String(err && err.message ? err.message : err) });
     }
     return;
   }
 
   if (req.method === 'POST') {
     try {
+      const { passcode, articles } = req.body || {};
+
+      if (!process.env.ADMIN_PASSCODE) {
+        res.status(500).json({ error: 'Server is missing ADMIN_PASSCODE env var' });
+        return;
+      }
+
+      if (passcode !== process.env.ADMIN_PASSCODE) {
+        res.status(401).json({ error: 'Incorrect passcode' });
+        return;
+      }
+
+      if (!Array.isArray(articles)) {
+        res.status(400).json({ error: 'articles must be an array' });
+        return;
+      }
+
+      await redis.set(STORAGE_KEY, articles);
+      res.status(200).json({ ok: true });
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to save articles' });
+    }
+    return;
+  }
+
+  res.status(405).json({ error: 'Method not allowed' });
+}    try {
       const { passcode, articles } = req.body || {};
 
       if (!process.env.ADMIN_PASSCODE) {
